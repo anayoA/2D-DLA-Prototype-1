@@ -6,28 +6,25 @@
 
 
 const tree = [];
-const radius = 4;
+const radius = 8;
 
 
 function setup() {
   createCanvas(400, 400);
   tree[0] = createVector(width / 2, height / 2); // point in the middle of the window
-  x = random(0, width);
-  y = random(0, height);
-  walker = createVector(x, y);
-
+  walker = spawnWalkerOnEdge();
 }
 
 function draw() {
   background(0);
-
-  point(walker.x, walker.y);
 
   for (let i = 0; i < tree.length; i++) {
     strokeWeight(radius);
     stroke(255);
     point(tree[i].x, tree[i].y);
   }
+
+  point(walker.x, walker.y);
 }
 
 function spawnWalkerOnEdge() {
@@ -37,20 +34,26 @@ function spawnWalkerOnEdge() {
   // bottom: x = random, y = height
   const edges = ["left", "right", "top", "bottom"];
   let chosenEdge = random(edges);
-
+  let x;
+  let y;
   if (chosenEdge == "left") {
-
+    x = 0;
+    y = random(0, height);
   }
   else if (chosenEdge == "right") {
+    x = width
+    y = random(0, height);
 
   }
   else if (chosenEdge == "top") {
-
+    x = random(0, width);
+    y = 0;
   }
   else {
-
+    x = random(0, width);
+    y = height;
   }
-
+  return createVector(x, y);
 }
 
 function moveWalker() {
