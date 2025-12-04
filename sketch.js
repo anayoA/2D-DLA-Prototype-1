@@ -6,9 +6,9 @@
 
 
 const tree = [];
-const radius = 8;
+const radius = 4;
 const walkers = [];
-const numWalkers = 2000;
+const numWalkers = 200;
 
 function setup() {
   createCanvas(400, 400);
@@ -22,7 +22,7 @@ function draw() {
   background(0);
 
   for (let i = 0; i < tree.length; i++) {
-    strokeWeight(radius);
+    strokeWeight(radius * 2);
     stroke(255);
     point(tree[i].x, tree[i].y);
   }
@@ -33,7 +33,7 @@ function draw() {
     moveWalker(walkers[i]);
 
     if (checkSticking(walkers[i])) {
-      tree.push(walkers[i]);
+      tree.push(createVector(walkers[i].x, walkers[i].y));
       walkers[i] = spawnWalkerOnEdge();
     }
     else {
@@ -79,8 +79,13 @@ function moveWalker(w) {
   w.x += random(-vel, vel);
   w.y += random(-vel, vel);
 
-  w.x = constrain(w.x, 0, width);
-  w.y = constrain(w.y, 0, height);
+  if (w.x < 0 || w.x > width || w.y < 0 || w.y > height) {
+    let newW = spawnWalkerOnEdge();
+    w.x = newW.x;
+    w.y = newW.y;
+    return;
+  }
+
 
 }
 function checkSticking(w) {
