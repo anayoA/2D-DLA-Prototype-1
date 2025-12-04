@@ -23,9 +23,11 @@ function draw() {
     stroke(255);
     point(tree[i].x, tree[i].y);
   }
-
+  moveWalker();
   point(walker.x, walker.y);
+  // console.log("Hello!");
 }
+
 
 function spawnWalkerOnEdge() {
   // left: x = 0, y = random
@@ -57,6 +59,11 @@ function spawnWalkerOnEdge() {
 }
 
 function moveWalker() {
+  let dx = random(-1, 1);
+  let dy = random(-1, 1);
+
+  walker.x += dx;
+  walker.y += dy;
 
 }
 function checkSticking() {
