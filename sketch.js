@@ -8,11 +8,12 @@
 const tree = [];
 const radius = 8;
 const walkers = [];
+const numWalkers = 2000;
 
 function setup() {
   createCanvas(400, 400);
   tree[0] = createVector(width / 2, height / 2); // point in the middle of the window
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < numWalkers; i++) {
     walkers.push(spawnWalkerOnEdge());
   }
 }
@@ -26,11 +27,16 @@ function draw() {
     point(tree[i].x, tree[i].y);
   }
 
-  for (let i = 0; i < walkers.length; i++) {
+  for (let i = 0; i < walkers.length; i++) { // for all walkers, updates their position then checks if they're sticking. if yes -> spawn new.
 
     stroke(150);
     moveWalker(walkers[i]);
-    if (!checkSticking(walkers[i])) {
+
+    if (checkSticking(walkers[i])) {
+      tree.push(walkers[i]);
+      walkers[i] = spawnWalkerOnEdge();
+    }
+    else {
       point(walkers[i].x, walkers[i].y);
     }
   }
@@ -68,7 +74,7 @@ function spawnWalkerOnEdge() {
 }
 
 function moveWalker(w) {
-  const vel = 5;
+  const vel = 1;
 
   w.x += random(-vel, vel);
   w.y += random(-vel, vel);
@@ -84,10 +90,6 @@ function checkSticking(w) {
     let distance = dist(w.x, w.y, tree[i].x, tree[i].y);
 
     if (distance < radius * 2) {
-      // stop walker in its tracks
-      tree.push(w);
-      // spawn new walker
-      walkers
       return true; // returns stop the entire function
     }
   }
