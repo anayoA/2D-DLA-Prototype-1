@@ -23,6 +23,7 @@ function draw() {
     stroke(255);
     point(tree[i].x, tree[i].y);
   }
+  stroke(150);
   moveWalker();
   point(walker.x, walker.y);
   // console.log("Hello!");
@@ -59,13 +60,33 @@ function spawnWalkerOnEdge() {
 }
 
 function moveWalker() {
-  let dx = random(-1, 1);
-  let dy = random(-1, 1);
+  const vel = 100;
+  let dx = random(-vel, vel);
+  let dy = random(-vel, vel);
 
   walker.x += dx;
   walker.y += dy;
 
+  walker.x = constrain(walker.x, 0, width);
+  walker.y = constrain(walker.y, 0, height);
 }
 function checkSticking() {
+  let distance;
+
+  for (let i = 0; i < tree.length; i++) {
+
+    distance = dist(walker.x, walker.y, tree[i].x, tree[i].y);
+
+    if (distance < radius * 2) {
+      // stop walker in its tracks
+      tree.push(walker);
+      // spawn new walker
+      walker = spawnWalkerOnEdge();
+      return true;
+    }
+
+    return false;
+
+  }
 
 }
