@@ -30,6 +30,7 @@ function draw() {
   for (let i = 0; i < walkers.length; i++) { // for all walkers, updates their position then checks if they're sticking. if yes -> spawn new.
 
     stroke(150);
+    let walkerStuck = false;
     for (let steps = 0; steps < 5; steps++) {
       moveWalker(walkers[i]);
       if (checkSticking(walkers[i])) {
