@@ -25,6 +25,7 @@ function draw() {
   }
   stroke(150);
   moveWalker();
+  checkSticking();
   point(walker.x, walker.y);
   // console.log("Hello!");
 }
