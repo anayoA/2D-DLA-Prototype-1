@@ -7,12 +7,14 @@
 
 const tree = [];
 const radius = 8;
-
+const walkers = [];
 
 function setup() {
   createCanvas(400, 400);
   tree[0] = createVector(width / 2, height / 2); // point in the middle of the window
-  walker = spawnWalkerOnEdge();
+  for (let i = 0; i < 10; i++) {
+    walkers.push(spawnWalkerOnEdge());
+  }
 }
 
 function draw() {
@@ -23,10 +25,15 @@ function draw() {
     stroke(255);
     point(tree[i].x, tree[i].y);
   }
-  stroke(150);
-  moveWalker();
-  checkSticking();
-  point(walker.x, walker.y);
+
+  for (let i = 0; i < walkers.length; i++) {
+
+    stroke(150);
+    moveWalker(walkers[i]);
+    if (!checkSticking(walkers[i])) {
+      point(walkers[i].x, walkers[i].y);
+    }
+  }
   // console.log("Hello!");
 }
 
@@ -60,30 +67,30 @@ function spawnWalkerOnEdge() {
   return createVector(x, y);
 }
 
-function moveWalker() {
-  const vel = 1;
+function moveWalker(w) {
+  const vel = 5;
 
-  walker.x += random(-vel, vel);
-  walker.y += random(-vel, vel);
+  w.x += random(-vel, vel);
+  w.y += random(-vel, vel);
 
-  walker.x = constrain(walker.x, 0, width);
-  walker.y = constrain(walker.y, 0, height);
+  w.x = constrain(w.x, 0, width);
+  w.y = constrain(w.y, 0, height);
 
 }
-function checkSticking() {
+function checkSticking(w) {
 
   for (let i = 0; i < tree.length; i++) {
 
-    let distance = dist(walker.x, walker.y, tree[i].x, tree[i].y);
+    let distance = dist(w.x, w.y, tree[i].x, tree[i].y);
 
     if (distance < radius * 2) {
       // stop walker in its tracks
-      tree.push(walker);
+      tree.push(w);
       // spawn new walker
-      walker = spawnWalkerOnEdge();
-      return true;
+      walkers
+      return true; // returns stop the entire function
     }
   }
-  return false;
+  return false; // return outside of the for loop or else it stops the for loop on the first iteration tree[0]
 
 }
