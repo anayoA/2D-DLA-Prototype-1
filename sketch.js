@@ -30,13 +30,16 @@ function draw() {
   for (let i = 0; i < walkers.length; i++) { // for all walkers, updates their position then checks if they're sticking. if yes -> spawn new.
 
     stroke(150);
-    moveWalker(walkers[i]);
-
-    if (checkSticking(walkers[i])) {
-      tree.push(createVector(walkers[i].x, walkers[i].y));
-      walkers[i] = spawnWalkerOnEdge();
+    for (let steps = 0; steps < 5; steps++) {
+      moveWalker(walkers[i]);
+      if (checkSticking(walkers[i])) {
+        tree.push(createVector(walkers[i].x, walkers[i].y));
+        walkers[i] = spawnWalkerOnEdge();
+        walkerStuck = true;
+        break;
+      }
     }
-    else {
+    if (!walkerStuck){
       point(walkers[i].x, walkers[i].y);
     }
   }
