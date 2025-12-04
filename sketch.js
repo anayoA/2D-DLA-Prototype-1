@@ -61,22 +61,20 @@ function spawnWalkerOnEdge() {
 }
 
 function moveWalker() {
-  const vel = 100;
-  let dx = random(-vel, vel);
-  let dy = random(-vel, vel);
+  const vel = 1;
 
-  walker.x += dx;
-  walker.y += dy;
+  walker.x += random(-vel, vel);
+  walker.y += random(-vel, vel);
 
   walker.x = constrain(walker.x, 0, width);
   walker.y = constrain(walker.y, 0, height);
+
 }
 function checkSticking() {
-  let distance;
 
   for (let i = 0; i < tree.length; i++) {
 
-    distance = dist(walker.x, walker.y, tree[i].x, tree[i].y);
+    let distance = dist(walker.x, walker.y, tree[i].x, tree[i].y);
 
     if (distance < radius * 2) {
       // stop walker in its tracks
@@ -85,9 +83,7 @@ function checkSticking() {
       walker = spawnWalkerOnEdge();
       return true;
     }
-
-    return false;
-
   }
+  return false;
 
 }
