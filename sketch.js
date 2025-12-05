@@ -31,7 +31,7 @@ function draw() {
 
     stroke(150);
     let walkerStuck = false;
-    for (let steps = 0; steps < 5; steps++) {
+    for (let steps = 0; steps < 10; steps++) {
       moveWalker(walkers[i]);
       if (checkSticking(walkers[i])) {
         tree.push(createVector(walkers[i].x, walkers[i].y));
